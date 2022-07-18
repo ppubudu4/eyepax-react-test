@@ -1,10 +1,36 @@
-import React from 'react';
-import { Row, Col, Card, Form, Input, Button } from 'antd';
+import React, { useEffect } from 'react';
+import { Row, Col, Card, Form, Input, Button, Alert } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, clearLoginError } from '../redux/actions/authActions';
 const Login = () => {
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const authState = useSelector((state) => state.auth);
+
+  //error time out
+  useEffect(() => {
+    let timeOut;
+    if (authState.error !== null) {
+      timeOut = setTimeout(() => {
+        dispatch(clearLoginError());
+      }, 3500);
+    }
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [authState.error]);
+
+  //login submit
   const onSubmit = () => {
     form.validateFields().then((values) => {
-      console.log(values);
+      const data = {
+        username: values.username,
+        password: values.password,
+      };
+
+      dispatch(login(data, navigate));
     });
   };
   return (
@@ -29,12 +55,22 @@ const Login = () => {
                 ]}>
                 <Input type='password' />
               </Form.Item>
+              {authState.error !== null && (
+                <Alert
+                  style={{ marginBottom: '10px' }}
+                  message={authState.error}
+                  type='error'
+                />
+              )}
               <Form.Item>
                 <Button block type='primary' onClick={onSubmit}>
                   Login
                 </Button>
               </Form.Item>
             </Form>
+            <blockquote className='mt-3'>
+              Username: admin {' | '} Password: admin
+            </blockquote>
           </Card>
         </Col>
       </Row>

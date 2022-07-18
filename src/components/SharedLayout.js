@@ -1,11 +1,13 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Layout, Typography, Button } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/actions/authActions';
 const SharedLayout = () => {
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <>
       <Layout>
@@ -24,7 +26,9 @@ const SharedLayout = () => {
             <div>
               {authState?.authenticated ? (
                 <div>
-                  <Button onClick={() => dispatch(logout())}>Logout</Button>
+                  <Button onClick={() => dispatch(logout(navigate))}>
+                    Logout
+                  </Button>
                 </div>
               ) : (
                 <></>

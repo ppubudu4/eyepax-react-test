@@ -14,12 +14,17 @@ export const login = (data, navigate) => async (dispatch) => {
     }
   } catch (error) {
     dispatch({
-      type: AuthTypes.LOGIN_ERROR,
+      type: authTypes.LOGIN_ERROR,
       payload: error.message,
     });
   }
 };
 
-export const logout = () => async (dispatch) => {
+export const clearLoginError = () => async (dispatch) => {
+  dispatch({ type: authTypes.CLEAR_ERROR });
+};
+
+export const logout = (navigate) => async (dispatch) => {
   dispatch({ type: authTypes.LOGOUT_USER });
+  navigate('/login');
 };
