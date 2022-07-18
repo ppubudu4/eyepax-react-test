@@ -10,7 +10,6 @@ import {
 } from '../redux/actions/todoActions';
 import DetailModal from '../components/DetailModal';
 const Home = () => {
-  const [data, setData] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const todoState = useSelector((state) => state.todo);
@@ -23,10 +22,12 @@ const Home = () => {
     };
   }, []);
 
+  //model show and dispach to get detail from id
   const onHandleShowModal = (rowData) => {
     dispatch(getTodoDetailAction(rowData.id));
     setShowModal(true);
   };
+  //model hide and dispach to clear detail from store
   const onHandelCloseModal = () => {
     dispatch(todoDetailClear());
     setShowModal(false);
@@ -85,7 +86,6 @@ const Home = () => {
         />
       </Card>
       <DetailModal
-        data={data}
         onHandelCloseModal={onHandelCloseModal}
         showModal={showModal}
       />
