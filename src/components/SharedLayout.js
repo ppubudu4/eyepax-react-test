@@ -1,28 +1,41 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Layout, Row, Col, Typography, Button } from 'antd';
+import { Layout, Typography, Button } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../redux/actions/authActions';
 const SharedLayout = () => {
+  const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   return (
     <>
       <Layout>
         <Layout.Header>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Typography.Title level={3} style={{ color: '#FFF' }}>
                 My Todos
               </Typography.Title>
             </div>
             <div>
-              <div style={{}}>
-                <Button>Logout</Button>
-              </div>
+              {authState?.authenticated ? (
+                <div>
+                  <Button onClick={() => dispatch(logout())}>Logout</Button>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </Layout.Header>
         <Layout.Content className='site-layout'>
           <div
             className='site-layout-background'
-            style={{ padding: 24, minHeight: '100vh' }}>
+            style={{ padding: 24, minHeight: '93vh' }}>
             <Outlet />
           </div>
         </Layout.Content>

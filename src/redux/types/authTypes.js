@@ -1,5 +1,6 @@
-export const AuthTypes = {
+export const authTypes = {
   LOGIN_USER: 'LOGIN_USER',
   LOGIN_ERROR: 'LOGIN_ERROR',
   CLEAR_ERROR: 'CLEAR_ERROR',
+  LOGOUT_USER: 'LOGOUT_USER',
 };
